@@ -7,10 +7,6 @@ class Order
 
     public List<OrderItem> Itens { get; set; }
 
-    public Order()
-    {
-    }
-
     public Order(Client client, OrderStatus status)
     {
         Client = client;

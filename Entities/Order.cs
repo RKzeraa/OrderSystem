@@ -1,10 +1,11 @@
+using System.Text;
+
 class Order
 {
 
     public Client Client { get; set; }
     public DateTime Moment { get; set; }
     public OrderStatus Status { get; set; }
-
     public List<OrderItem> Itens { get; set; }
 
     public Order(Client client, OrderStatus status)
@@ -25,7 +26,7 @@ class Order
         Itens.Remove(item);
     }
 
-    public double Total()
+    private double Total()
     {
         double sum = 0.00;
         foreach (OrderItem item in Itens)
@@ -36,22 +37,24 @@ class Order
         return sum;
     }
 
-    public string ShowOrderItens() {
-        string showItens = "";
-        foreach (OrderItem item in Itens)
-        {
-           showItens += item.ToString() + "\n";
-        }
-        return showItens;
-    }
-
     public override string ToString()
     {
-        return "\nORDER SUMMARY:\n"
-                + $"Order moment: {Moment.ToString("MM/dd/yyyy HH:mm:ss")}"
-                + $"\nOrder status: {Status}"
-                + $"\nClient: {Client.ToString()}"
-                + $"\nOrder items: \n{ShowOrderItens()}"
-                + $"Total price: ${Total().ToString("F")}";
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("\nORDER SUMMARY:");
+        sb.Append("Order moment: ");
+        sb.AppendLine(Moment.ToString("dd/MM/yyyy HH:mm:ss"));
+        sb.Append("Order status: ");
+        sb.AppendLine(Status.ToString());
+        sb.Append("Client: ");
+        sb.AppendLine(Client.ToString());
+        sb.AppendLine("Order items: ");
+        foreach (OrderItem item in Itens)
+        {
+            sb.AppendLine(item.ToString());
+        }
+        sb.Append("Total price: ");
+        sb.AppendLine(Total().ToString("C2"));
+
+        return sb.ToString();
     }
 }

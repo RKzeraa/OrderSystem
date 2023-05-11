@@ -1,8 +1,10 @@
+using System.Text;
+
 public class OrderItem
 {
-    public Product Product { get; set; }
-    public int Quantity { get; set; }
-    public double Price { get; set; }
+    private Product Product { get; set; }
+    private int Quantity { get; set; }
+    private double Price { get; set; }
 
     public OrderItem(Product product, int quantity, double price)
     {
@@ -10,13 +12,19 @@ public class OrderItem
         Quantity = quantity;
         Price = price;
     }
-    public double SubTotal()
+    internal double SubTotal()
     {
         return Price * Quantity;
     }
 
     public override string ToString()
     {
-        return $"{Product.ToString()}, Quantity: {Quantity}, Subtotal: ${SubTotal().ToString("F")}";
+        StringBuilder sb = new StringBuilder();
+        sb.Append(Product.ToString());
+        sb.Append(", Quantity: ");
+        sb.Append(Quantity.ToString());
+        sb.Append(", Subtotal: ");
+        sb.Append(SubTotal().ToString("C2"));
+        return sb.ToString();
     }
 }
